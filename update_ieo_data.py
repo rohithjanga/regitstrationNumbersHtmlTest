@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Embed a fresh warehouse IEO export into index.html.
+"""Embed a fresh warehouse IEO export into index-automation.html.
 
-The page is standalone: the IEO data lives inside index.html in
+The page is standalone: the IEO data lives inside index-automation.html in
 <script id="ieo-dashboard-data" type="application/json">. This replaces the
 contents of that one block and touches nothing else.
 
@@ -13,7 +13,7 @@ import re
 import sys
 from pathlib import Path
 
-PAGE = Path(__file__).resolve().parent / 'index.html'
+PAGE = Path(__file__).resolve().parent / 'index-automation.html'
 BLOCK = re.compile(
     r'(<script id="ieo-dashboard-data" type="application/json">)(.*?)(</script>)',
     re.S)
@@ -34,7 +34,7 @@ def main() -> int:
 
     html = PAGE.read_text(encoding='utf-8')
     if len(BLOCK.findall(html)) != 1:
-        print('index.html must contain exactly one ieo-dashboard-data block')
+        print('index-automation.html must contain exactly one ieo-dashboard-data block')
         return 1
     html = BLOCK.sub(lambda m: m.group(1) + payload + m.group(3), html)
     PAGE.write_text(html, encoding='utf-8')
